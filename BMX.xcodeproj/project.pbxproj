@@ -285,6 +285,7 @@
 		6C76502D106AE7F20048D771 /* ControlLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C76502C106AE7F20048D771 /* ControlLayer.m */; };
 		6C765030106AE8040048D771 /* HUDLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C76502F106AE8040048D771 /* HUDLayer.m */; };
 		6C765066106B2FA90048D771 /* dpad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C765065106B2FA90048D771 /* dpad.png */; };
+		6C7650DE106C92300048D771 /* moe-block.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C7650DD106C92300048D771 /* moe-block.png */; };
 		DC6640030F83B3EA000B3E49 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */; };
 		DC6640050F83B3EA000B3E49 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640040F83B3EA000B3E49 /* OpenAL.framework */; };
 		DCCBF1B70F6022AE0040855A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCBF1B60F6022AE0040855A /* CoreGraphics.framework */; };
@@ -500,6 +501,7 @@
 		6C76502E106AE8040048D771 /* HUDLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDLayer.h; sourceTree = "<group>"; };
 		6C76502F106AE8040048D771 /* HUDLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDLayer.m; sourceTree = "<group>"; };
 		6C765065106B2FA90048D771 /* dpad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dpad.png; path = Resources/dpad.png; sourceTree = "<group>"; };
+		6C7650DD106C92300048D771 /* moe-block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "moe-block.png"; path = "Resources/moe-block.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DC6640040F83B3EA000B3E49 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -579,6 +581,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6C7650DD106C92300048D771 /* moe-block.png */,
 				6C765065106B2FA90048D771 /* dpad.png */,
 				6C765019106AE3A50048D771 /* Default.png */,
 				6C76501A106AE3A50048D771 /* fps_images.png */,
@@ -1039,6 +1042,7 @@
 				6C76501D106AE3A50048D771 /* fps_images.png in Resources */,
 				6C76501E106AE3A50048D771 /* Icon.png in Resources */,
 				6C765066106B2FA90048D771 /* dpad.png in Resources */,
+				6C7650DE106C92300048D771 /* moe-block.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

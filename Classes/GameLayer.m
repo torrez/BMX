@@ -13,6 +13,17 @@
 #define FRAMERATE 0.01
 
 
+void updateShape(void* ptr, void* unused)
+{
+    cpShape *shape = (cpShape*)ptr;
+    Sprite *sprite = shape->data;
+    if (sprite) {
+        cpBody *body = shape->body;
+        [sprite setPosition:ccp(body->p.x, body->p.y)];
+    }
+}
+
+
 
 @implementation GameLayer
 
@@ -40,7 +51,11 @@
 {	
     if (is_moving) {
         [self updateHUD];
-    }   
+    }
+    
+    cpSpaceStep(space, 1.0f/60.0f);
+    cpSpaceHashEach(space->activeShapes, &updateShape, nil);
+
 }
 
 - (void)shouldGo:(int)s lean:(int)l
@@ -69,15 +84,60 @@
         is_moving = NO;
         speed = 0;
         lean = 0;        
+     
+        moe_sprite = [Sprite spriteWithFile:@"moe-block.png"];
         
+        [moe_sprite setPosition:CGPointMake(150, 300)];
+        
+        [self addChild:moe_sprite];
+        
+        
+        
+        [self setupChipmunk];
+
 		[self schedule: @selector(tick:) interval:FRAMERATE];
     }
 	return self;
 }
 
+-(void)setupChipmunk{
+    
+    cpInitChipmunk();
+    
+    space = cpSpaceNew();
+    space->gravity = cpv(0,-2000);
+    space->elasticIterations = 1;
+    
+    
+    cpBody* ballBody = cpBodyNew(200.0, INFINITY);
+    ballBody->p = cpv(150, 400);
+    cpSpaceAddBody(space, ballBody);
+    cpShape* ballShape = cpCircleShapeNew(ballBody, 20.0, cpvzero);
+    
+    
+    ballShape->e = 0.8;
+    ballShape->u = 0.8;
+    ballShape->data = moe_sprite;
+    ballShape->collision_type = 1;
+    
+    cpSpaceAddShape(space, ballShape);
+    
+    cpBody* floorBody = cpBodyNew(INFINITY, INFINITY);    
+    floorBody->p = cpv(0, 0);
+    
+    cpShape* floorShape = cpSegmentShapeNew(floorBody, cpv(0,0), cpv(320,0), 0);
+    floorShape->e = 0.5;
+    floorShape->u = 0.1;
+    floorShape->collision_type = 0;
+    
+    cpSpaceAddStaticShape(space, floorShape);
+    
+}
+
 - (void) dealloc
 {
-
+    [self unschedule:@selector(tick:)];
+    
     // don't forget to call "super dealloc"
 	[super dealloc];
 }
