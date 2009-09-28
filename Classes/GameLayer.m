@@ -20,6 +20,7 @@ void updateShape(void* ptr, void* unused)
     if (sprite) {
         cpBody *body = shape->body;
         [sprite setPosition:ccp(body->p.x, body->p.y)];
+        [sprite setRotation: CC_RADIANS_TO_DEGREES(-body->a)];
     }
 }
 
@@ -50,6 +51,8 @@ void updateShape(void* ptr, void* unused)
 - (void) tick: (ccTime) dt
 {	
     if (is_moving) {
+        cpBodyApplyImpulse(moe_body, cpv(10,10), cpv(-10,-10));
+
         [self updateHUD];
     }
     
@@ -109,30 +112,66 @@ void updateShape(void* ptr, void* unused)
     space->elasticIterations = 1;
     
     
-    cpBody* ballBody = cpBodyNew(200.0, INFINITY);
-    ballBody->p = cpv(150, 400);
-    cpSpaceAddBody(space, ballBody);
-    cpShape* ballShape = cpCircleShapeNew(ballBody, 20.0, cpvzero);
+    cpVect moe_verts[] = { cpv(-10, -10), cpv(-10, 10), cpv(10, 10), cpv(10,-10) };
+    cpFloat moe_mass = .5f;
+    cpFloat moe_moment = cpMomentForPoly(moe_mass, 4, moe_verts, cpvzero);
+
+    moe_body = cpBodyNew(moe_mass, moe_moment);
+    moe_body->p = cpv(15, 140);
+    cpSpaceAddBody(space, moe_body);
+
     
+    cpShape *moe_shape = cpPolyShapeNew(moe_body, 4, moe_verts, cpvzero);
+    moe_shape->e = 0.8f; 
+    moe_shape->u = 0.8f; 
+    moe_shape->collision_type = 1;  
+    moe_shape->data = moe_sprite;
+    cpSpaceAddShape(space, moe_shape);  
     
-    ballShape->e = 0.8;
-    ballShape->u = 0.8;
-    ballShape->data = moe_sprite;
-    ballShape->collision_type = 1;
-    
-    cpSpaceAddShape(space, ballShape);
     
     cpBody* floorBody = cpBodyNew(INFINITY, INFINITY);    
     floorBody->p = cpv(0, 0);
     
-    cpShape* floorShape = cpSegmentShapeNew(floorBody, cpv(0,0), cpv(320,0), 0);
-    floorShape->e = 0.5;
-    floorShape->u = 0.1;
-    floorShape->collision_type = 0;
+    cpVect floor_verts1[] = {cpv(0,0), cpv(0,137), cpv(101,22), cpv(101,0)};
+    cpVect floor_verts2[] = {cpv(101,0), cpv(101,22), cpv(207,22), cpv(207,0)};
+    cpVect floor_verts3[] = {cpv(207,0), cpv(207,22), cpv(246,60), cpv(271,22), cpv(271,0)};
+    cpVect floor_verts4[] = {cpv(271,0), cpv(271, 22), cpv(461,22), cpv(461,0)};
     
-    cpSpaceAddStaticShape(space, floorShape);
     
+    cpShape *floorShape = cpPolyShapeNew(floorBody, 4, floor_verts1, cpvzero);
+    floorShape->e = 0.5; floorShape->u = 0.1; floorShape->collision_type = 0;  
+    //floorShape->data = floor;  
+    cpSpaceAddStaticShape(space, floorShape); 
+    
+    floorShape = cpPolyShapeNew(floorBody, 4, floor_verts2, cpvzero);
+    floorShape->e = 0.5; floorShape->u = 0.1; floorShape->collision_type = 0;  
+    //floorShape->data = floor;  
+    cpSpaceAddStaticShape(space, floorShape); 
+  
+    floorShape = cpPolyShapeNew(floorBody, 5, floor_verts3, cpvzero);
+    floorShape->e = 0.5; floorShape->u = 0.1; floorShape->collision_type = 0;  
+    //floorShape->data = floor;  
+    cpSpaceAddStaticShape(space, floorShape); 
+    
+    floorShape = cpPolyShapeNew(floorBody, 4, floor_verts4, cpvzero);
+    floorShape->e = 0.5; floorShape->u = 0.1; floorShape->collision_type = 0;  
+    //floorShape->data = floor;  
+    cpSpaceAddStaticShape(space, floorShape);     
 }
+
+
+-(void)draw{
+    glColor4f(0.8, 1.0, 0.76, 1.0);  
+    glLineWidth(2.0f);
+    drawLine(CGPointMake(0, 137), CGPointMake(101, 22));
+    drawLine(CGPointMake(101, 22), CGPointMake(207, 22));
+    drawLine(CGPointMake(207, 22), CGPointMake(246, 60));
+    drawLine(CGPointMake(246, 60), CGPointMake(271, 22));
+    drawLine(CGPointMake(271, 22), CGPointMake(461, 22));
+}    
+
+
+
 
 - (void) dealloc
 {

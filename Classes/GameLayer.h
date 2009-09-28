@@ -10,6 +10,7 @@
     int         lean;
 
     Sprite      *moe_sprite;
+    cpBody      *moe_body;
     cpSpace     *space;
 }
 

@@ -35,7 +35,7 @@
         UITouch *touch   = [touches anyObject];
         CGPoint location = [touch locationInView: [touch view]];
         CGPoint cLoc     = [[Director sharedDirector] convertCoordinate: location];
-        
+
 		[self testTouchPoint:cLoc isLifted:NO];        
 	}
 	
